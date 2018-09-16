@@ -40,7 +40,7 @@ namespace Viva.Estetica.Web.Controllers
                     _agendamentos = TempData["Agendamentos"] as List<Agenda>;
                 }
 
-                ViewBag.DentroHorarioMarcacao = true;// _negocio.ValidarHorarioMarcarAgendamento();
+                ViewBag.DentroHorarioMarcacao = _negocio.ValidarHorarioMarcarAgendamento();
             }
             return View(_agendamentos);
         }

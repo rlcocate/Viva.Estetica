@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Viva.Estetica.Dominio;
+using Viva.Estetica.Dominio.Enums;
 
 namespace Viva.Estetica.InfraEstrutura
 {
@@ -63,20 +64,27 @@ namespace Viva.Estetica.InfraEstrutura
 
             var agendamento = Obter(id);
 
-            //if (agendamento.Servico.Nome == TipoServico.Massagem.ToString())
-            //{
-            //    if (agendamento.Data != DateTime.Now)
-            //    {
-            //        mensagem = "Massagem so pode ser cancelada ou reagendada com 24 horas de antecedencia.";
-            //    }
-            //}
-            //else
-            //{
-            //    if (agendamento.Data >= DateTime.Now)
-            //    {
-            //        mensagem = "Servico so pode ser cancelado com ate 1 dia de antecedencia.";
-            //    }
-            //}
+            if (agendamento.Servico.Nome == TipoServico.Massagem.ToString())
+            {
+                var data = Convert.ToDateTime(agendamento.Data);
+                var horario = Convert.ToDateTime(agendamento.Horario);
+                var dataCalendario = DateTime.Now;
+
+                TimeSpan horaTotal = new TimeSpan(data.Ticks - dataCalendario.Ticks);
+                      
+                if (!((data == dataCalendario) ||
+                    ((horaTotal.Days == 0) && ((horaTotal.Hours * 60) + horaTotal.Minutes) <= (24 * 60))))
+                {
+                    mensagem = "Massagem so pode ser cancelada ou reagendada com 24 horas de antecedencia.";
+                }
+            }
+            else
+            {
+                if (Convert.ToDateTime(agendamento.Data) <= DateTime.Now.AddDays(-1))
+                {
+                    mensagem = "Servico so pode ser cancelado ou reagendado com ate 1 dia de antecedencia.";
+                }
+            }
             return mensagem;
         }
     }
