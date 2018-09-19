@@ -47,7 +47,7 @@ namespace Viva.Estetica.InfraEstrutura
         public bool ValidarHorarioMarcarAgendamento()
         {
             TimeSpan inicio = new TimeSpan(8, 0, 0);
-            TimeSpan final = new TimeSpan(19, 30, 0); ;
+            TimeSpan final = new TimeSpan(16, 0, 0); ;
 
             int i = TimeSpan.Compare(DateTime.Now.TimeOfDay, inicio);
             int f = TimeSpan.Compare(DateTime.Now.TimeOfDay, final);
